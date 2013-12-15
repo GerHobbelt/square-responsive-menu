@@ -1,8 +1,18 @@
 @charset "UTF-8";
 
-* { margin:0; padding:0; }
-html { height: 100%; }
-body { font-family: Lato,"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: 300; height: 100%; color: #555555;}
+* { 
+	margin:0; 
+	padding:0; 
+}
+html { 
+	height: 100%; 
+}
+body { 
+	font-family: Lato,"Helvetica Neue",Helvetica,Arial,sans-serif; 
+	font-weight: 300; 
+	height: 100%; 
+	color: #555555;
+}
 header {
 	height: 50px;
 	line-height: 50px;
@@ -55,7 +65,9 @@ h3 {
 	/*box-shadow: inset 0 0 5px #111111;*/
 	position: relative;
 }
-	#demo-area h4 { text-align: center; }
+	#demo-area h4 { 
+		text-align: center; 
+	}
 
 #update-notif {
 	width: 125px;
@@ -107,7 +119,9 @@ h3 {
 	margin: 0px 0 7px 1.5em; 
 }
 
-#options-area select { width: 100px; }
+#options-area select { 
+	width: 100px; 
+}
 #options-area input[type="text"] { 
 	width: 100px;
 	height: 18px;
