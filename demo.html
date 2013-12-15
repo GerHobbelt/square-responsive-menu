@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="live demo for Square Responsive Menu jQuery plugin">
+		<meta name="author" content="Gyl">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="./css/live-demo.css">
+		<link rel="stylesheet" href="./css/square-responsive-menu.css"> 
+		<script src="./javascripts/jquery.js"></script>
+		<script src="./js/jquery.squareresponsivemenu.js"></script>
+		<script>		
+			$(document).ready(function(){
+				var initScript = '',
+					options1 = '', options2 = '', options3 = '', options4 = '', options5 = '',
+					stillDefault = true, lastOptions = false,
+					$tempSelect = $('#square-menu').clone();
+								
+				$('#update-notif').hide();
+				$('#update').click( UpdateOptions );
+				InitSquareMenu();
+				
+				function InitSquareMenu(){
+					switch( $('#toggle-pos').val() ){		
+					case 'top-right':
+						$('.positioned').css({ 'top': '10px', 'right':'10px', 'bottom':'', 'left':'' });
+						break;
+					case 'bottom-right':
+						$('.positioned').css({ 'top': '', 'right':'10px', 'bottom':'10px', 'left':'' });
+						break;
+					case 'bottom-left':
+						$('.positioned').css({ 'top': '', 'right':'', 'bottom':'10px', 'left':'10px' });
+						break;
+					default:
+						$('.positioned').css({ 'top': '10px', 'right':'', 'bottom':'', 'left':'10px' });
+					}
+					
+					$('#square-menu').squareResponsiveMenu({
+						'squareHeight': parseInt( $('#square-height').val(), 10),
+						'squareWidth': parseInt( $('#square-width').val(), 10),
+						'squareNumbers': parseInt( $('#square-numbers').val(), 10),
+						'menuItemsFlow': $('input:radio[name=flows]:checked').val(),
+						'togglePosition': $('#toggle-pos').val()
+					});
+					
+					options1 = '', options2 = '', options3 = '', options4 = '', options5 = '',
+					stillDefault = true, initScript = '';
+					
+					if( $('#toggle-pos').val() != 'top-left' ){
+						if( stillDefault ){
+							stillDefault = false;
+							if(!lastOptions)
+								lastOptions = true;	
+						}	
+						options5 = "\n\t 'togglePosition': '" + $('#toggle-pos').val() + "'";							
+					}
+					
+					if( $('input:radio[name=flows]:checked').val() != 'left'  ){
+						options4 = "\n\t 'menuItemsFlow': 'right' " ;
+						if( stillDefault ){
+							stillDefault = false;
+							if(!lastOptions){
+								lastOptions = true;	
+								options4 += '';
+							}								
+						}else
+							options4 += ',';
+					}
+					
+					if( $('#square-numbers').val() != 3 ){
+						options3 = "\n\t 'squareNumbers': " + $('#square-numbers').val();
+						if( stillDefault ){
+							stillDefault = false;
+							if(!lastOptions){
+								lastOptions = true;	
+								options3 += '';
+							}								
+						}else
+							options3 += ',';
+					}
+					
+					if( $('#square-width').val() != 75 ){
+						options2 = "\n\t 'squareWidth': " + $('#square-width').val();
+						if( stillDefault ){
+							stillDefault = false;
+							if(!lastOptions){
+								lastOptions = true;	
+								options2 += '';
+							}								
+						}else
+							options2 += ',';
+					}
+
+					if( $('#square-height').val() != 75 ){
+						options1 = "\n\t 'squareHeight': " + $('#square-height').val();
+						if( stillDefault ){
+							stillDefault = false;
+							if(!lastOptions){
+								lastOptions = true;	
+								options1 += '';
+							}								
+						}else
+							options1 += ',';
+					}
+	
+					if(stillDefault){
+						initScript = "$('#square-menu').squareResponsiveMenu();";
+					}else{
+						initScript = "$('#square-menu').squareResponsiveMenu({"+
+									options1 + options2 + options3 + options4 + options5 +
+									"\n});";
+					}
+					$('#script-sample').val(initScript);
+				}
+						
+				function UpdateOptions(){
+					if( $('#toggle-square').hasClass('active') ){
+						$('#toggle-square').trigger('click');
+					}
+					$('#square-menu').remove();
+					$tempSelect.appendTo('#demo-area');
+					$('#update-notif').fadeIn(500).fadeOut(500);
+					InitSquareMenu();
+				}		
+			});		
+		</script>
+		<title>SRM jQuery Plugin Demo</title>	
+	</head>
+	<body>
+		<div id="main-container">
+			<header>
+				<h1>Live Demo: Square Responsive Menu - SRM (Alpha 1.0)</h1>
+			</header>
+			<div id="options-area">
+				<h2>SRM - jQuery plugin Options*</h2>
+				<form id="rrm-options">
+					<label for="square-height">Square Height</label>
+					<input id="square-height" type="text" value="75"><span>px</span><br>						
+					<label for="square-width">Square Width</label>
+					<input id="square-width" type="text" value="75"><span>px</span><br>						
+					<label for="square-numbers">Square Numbers</label>
+					<input id="square-numbers" type="text" value="3"><span>menu items</span><br>					
+					<label for="items-flow">Items Flow Orientation</label>
+					<input id="items-flow" type="radio" name="flows" value="left" checked=""><span class="radio-label">Left</span> 				
+					<input type="radio" name="flows" value="right"><span class="radio-label">Right</span><br>					
+					<label>Toggle Button Position</label>
+					<select id="toggle-pos" title="This options only changes the orientation of on which way the menu items would appears, not the position of toggle button. Position changes of toggle button in this page is for demonstration purpose only">
+						<option value="top-left">Top-Left</option>
+						<option value="top-right">Top-Right</option>
+						<option value="bottom-left">Bottom-Left</option>
+						<option value="bottom-right">Bottom-Right</option>
+					</select>
+					<button id="update" type="button">Update</button>				
+				</form>
+				<br>
+				<h3>Script to be included in HTML</h3>
+				<textarea readonly="" id="script-sample"> </textarea>
+				<p>* Please read <a href="index.html" target="_blank">here</a> or <a href="README.md" target="_blank">README.md</a> for explanation of the options</p>
+			</div>
+			<div id="demo-area">
+				<div id="update-notif" style="display: none;">Updated</div>
+				
+
+				<div id="square-menu" class="positioned" style="top: 10px; left: 10px;">
+					<input type="button" id="toggle-square" value="">
+					<ul class="level-1 square-menu-level square-first-level hide">
+						<li class="square-menu-items"><a href="#">Menu Item #1</a></li>
+						<li class="square-menu-items have-subs"><a href="#">Menu Item #2</a>
+							<ul class="level-2 square-menu-level square-upper-level hide">
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #2.1</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #2.2</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #2.3</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #2.4</a></li>
+								<li class="square-menu-items have-subs"><a href="#">Sub-Menu Item #2.5</a>
+									<ul class="level-3 square-menu-level square-upper-level hide">
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.1</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.2</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.3</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.4</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.5</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.6</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.7</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.8</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #2.5.9</a></li>
+									</ul>
+								</li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #2.6</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #2.7</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #2.8</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #2.9</a></li>
+							</ul>
+						</li>
+						<li class="square-menu-items"><a href="#">Menu Item #3</a></li>
+						<li class="square-menu-items"><a href="#">Menu Item #4</a></li>
+						<li class="square-menu-items have-subs"><a href="#">Menu Item #5</a>
+							<ul class="level-2 square-menu-level square-upper-level hide">
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #5.1</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #5.2</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #5.3</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #5.4</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #5.5</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #5.6</a></li>
+								<li class="square-menu-items have-subs"><a href="#">Sub-Menu Item #5.7</a>
+									<ul class="level-3 square-menu-level square-upper-level hide">
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.1</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.2</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.3</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.4</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.5</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.6</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.7</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.8</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #5.7.9</a></li>
+									</ul>
+								</li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #5.8</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #5.9</a></li>
+							</ul>
+						</li>
+						<li class="square-menu-items"><a href="#">Menu Item #6</a></li>
+						<li class="square-menu-items"><a href="#">Menu Item #7</a></li>
+						<li class="square-menu-items have-subs"><a href="#">Menu Item #8</a>
+							<ul class="level-2 square-menu-level square-upper-level hide">
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #8.1</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #8.2</a></li>
+								<li class="square-menu-items have-subs"><a href="#">Sub-Menu Item #8.3</a>
+									<ul class="level-3 square-menu-level square-upper-level hide">
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.1</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.2</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.3</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.4</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.5</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.6</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.7</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.8</a></li>
+										<li class="square-menu-items"><a href="#">Sub-Menu Item #8.3.9</a></li>
+									</ul>
+								</li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #8.4</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #8.5</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #8.6</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #8.7</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #8.8</a></li>
+								<li class="square-menu-items"><a href="#">Sub-Menu Item #8.9</a></li>
+							</ul>
+						</li>
+						<li class="square-menu-items"><a href="#">Menu Item #9</a></li>						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
